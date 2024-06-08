@@ -6,12 +6,13 @@ import Home from "./routes/Home.jsx";
 import Contact from "./routes/Contact.jsx";
 import Main from "./components/Main.jsx";
 import Login from "./routes/Login.jsx";
+import PublicLayout from "./layouts/PublicLayout.jsx";
 
 const router = createBrowserRouter([
   {
-    element: <Home />,
+    element: <PublicLayout />,
     children: [
-      { path: "/", element: <Main /> },
+      { path: "/", element: <Home /> },
       { path: "login", element: <Login /> },
       { path: "contact", element: <Contact /> },
     ],

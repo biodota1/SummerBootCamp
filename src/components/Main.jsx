@@ -1,23 +1,15 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+import main_bg from "../assets/main-bg.png";
 
 export default function Main() {
   return (
-    <div className="hero min-h-screen bg-base-200">
-      <div className="hero-content flex-col lg:flex-row">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-          className="max-w-sm rounded-lg shadow-2xl"
-        />
-        <div>
-          <h1 className="text-5xl font-bold">Box Office News!</h1>
-          <p className="py-6">
-            Provident cupiditate svoluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
-          <button className="btn btn-primary">Get Started</button>
-        </div>
-      </div>
+    <div
+      className="min-h-[92vh] pt-10 bg-origin-border bg-no-repeat bg-cover relative z-0"
+      style={{ backgroundImage: `url(${main_bg})` }}
+    >
+      <div className="absolute h-full z-20 w-full bg-gradient-to-t from-slate-800 from-40% to-transparent"></div>
+      <Outlet />
     </div>
   );
 }
