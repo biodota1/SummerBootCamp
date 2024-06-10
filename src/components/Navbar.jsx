@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <>
-      <div className="navbar bg-sky-500 sm:hidden">
+      <div className="navbar bg-sky-500 text-white sm:hidden">
         <div className="flex-none">
           <button className="btn btn-square btn-ghost">
             <svg
@@ -23,7 +23,7 @@ export default function Navbar() {
           </button>
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <a className="btn btn-ghost text-xl">Clouday</a>
         </div>
         <div className="flex-none">
           <button className="btn btn-square btn-ghost">
@@ -45,7 +45,7 @@ export default function Navbar() {
       </div>
       <div className="navbar h-[8vh] bg-sky-600 text-white  hidden sm:flex">
         <div className="flex-1">
-          <a className="btn btn-ghost text-2xl font-semibold">Weatherman</a>
+          <a className="btn btn-ghost text-2xl font-semibold">Clouday</a>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal text-lg pr-[100px] md:pr-[200px] lg:pr-[300px] font-bold">

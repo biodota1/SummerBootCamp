@@ -1,34 +1,94 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import Main from "../components/Main";
 import Footer from "../components/Footer";
 import { Outlet } from "react-router";
 import HomeWeather from "../home/HomeWeather";
+import HomeSearch from "../home/HomeSearch";
+import fewCloud from "../assets/few-cloud.png";
+import sunnyDay from "../assets/sunny-day.png";
+import brokenCloud from "../assets/broken-cloud.png";
+import scatteredCloud from "../assets/scattered-cloud.png";
+import SearchTest from "../home/SearchTest";
+import api from "../api/weather-api";
 
 export default function Home() {
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
+
+  const ref = useRef();
+  const [imageUrl, setImageUrl] = useState("");
+  const [weather, setWeather] = useState({
+    weather: [
+      {
+        main: "",
+        description: "",
+        icon: "",
+      },
+    ],
+    main: { temp: "" },
+    name,
+  });
+
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("weather");
+  //   if (storedData) {
+  //     setWeather(JSON.parse(storedData));
+  //   }
+  //   let description = weather.weather[0].description;
+  //   let url = "";
+  //   if (description == "") {
+  //     url = sunnyDay;
+  //   } else if (
+  //     description == "few clouds" ||
+  //     description == "overcast clouds"
+  //   ) {
+  //     url = fewCloud;
+  //   } else if (description == "broken clouds") {
+  //     url = brokenCloud;
+  //   } else if (description == "scattered clouds") {
+  //     url = scatteredCloud;
+  //   }
+  //   setImageUrl(url);
+  // }, [weather]);
+
+  const handleOnSearchChange = (searchData) => {
+    const [lat, lon] = searchData.value.split(" ");
+
+    const currentWeatherFetch = fetch(
+      `${api.base}weather?lat=${lat}&lon=${lon}&appid=${api.key}&units=metric`
+    );
+    const forecastFetch = fetch(
+      `${api.base}forecast?lat=${lat}&lon=${lon}&appid=${api.key}&units=metric`
+    );
+
+    Promise.all([currentWeatherFetch, forecastFetch])
+      .then(async (response) => {
+        const weatherResponse = await response[0].json();
+        const forecastResponse = await response[1].json();
+        setCurrentWeather({ city: searchData.label, ...weatherResponse });
+        setForecast({ city: searchData.label, ...forecastResponse });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  console.log(currentWeather);
+  console.log(forecast);
+
   return (
-    <div className="relative z-30 flex flex-col mx-[80px] md:mx-[120px] lg:mx-[150px] xl:mx-[250px]">
-      <form className="flex gap-x-1">
-        <label className="input input-bordered w-full bg-transparent flex items-center gap-2 rounded-md text-white font-semibold border-slate-300">
-          <input type="text" className="grow" placeholder="Search" />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            className="w-4 h-4 opacity-70"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </label>
-        <button className="btn border-none bg-sky-500 w-[100px] text-white font-bold">
-          Search
-        </button>
-      </form>
-      <HomeWeather />
+    <div className="absolute z-30 w-full h-full flex flex-col">
+      <img
+        className="absolute z-0 h-full w-full object-cover object-bottom"
+        src={imageUrl}
+        alt=""
+        ref={ref}
+        style={{ opacity: "0" }}
+      />
+      <div className="relative z-30 h-full mx-[80px] md:mx-[120px] lg:mx-[150px] xl:mx-[250px] pt-10">
+        {/* <HomeSearch /> */}
+        <SearchTest onSearchChange={handleOnSearchChange} />
+        {currentWeather ? <HomeWeather data={currentWeather} /> : null}
+      </div>
     </div>
   );
 }
