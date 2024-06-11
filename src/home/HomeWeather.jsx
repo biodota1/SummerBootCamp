@@ -30,9 +30,9 @@ export default function HomeWeather({ data }) {
         setImageUrl(brokenCloud);
       } else if (data.weather[0].description === "shower rain") {
         setImageUrl(showerRain);
-      } else if (data.weather[0].description === "rain") {
+      } else if (data.weather[0].description.includes("rain")) {
         setImageUrl(rain);
-      } else if (data.weather[0].description === "thunderstorm") {
+      } else if (data.weather[0].description.includes("thunderstorm")) {
         setImageUrl(thunderstorm);
       } else if (data.weather[0].description === "snow") {
         setImageUrl(snow);
