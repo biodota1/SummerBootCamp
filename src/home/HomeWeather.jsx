@@ -19,7 +19,10 @@ export default function HomeWeather({ data }) {
     setTimeout(() => {
       if (data.weather[0].description === "clear sky") {
         setImageUrl(sunny);
-      } else if (data.weather[0].description === "few clouds") {
+      } else if (
+        data.weather[0].description === "few clouds" ||
+        data.weather[0].description === "overcast clouds"
+      ) {
         setImageUrl(fewCloud);
       } else if (data.weather[0].description === "scattered clouds") {
         setImageUrl(scatteredCloud);
