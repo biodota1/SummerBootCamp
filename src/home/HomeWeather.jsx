@@ -1,10 +1,56 @@
-import React, { useEffect } from "react";
-import cloudy_day from "../assets/cloudy-day.png";
+import React, { useEffect, useRef, useState } from "react";
+import sunny from "../assets/sunny-day.png";
+import fewCloud from "../assets/few-cloud.png";
+import scatteredCloud from "../assets/scattered-cloud.png";
+import brokenCloud from "../assets/broken-cloud.png";
+import showerRain from "../assets/shower-rain.png";
+import rain from "../assets/rain.png";
+import thunderstorm from "../assets/thunderstorm.png";
+import snow from "../assets/snow.png";
+import mist from "../assets/mist.png";
 
 export default function HomeWeather({ data }) {
+  const [visible, setVisible] = useState(false);
+  const imgRef = useRef();
+  const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    setVisible(false);
+    setTimeout(() => {
+      if (data.weather[0].description === "clear sky") {
+        setImageUrl(sunny);
+      } else if (data.weather[0].description === "few clouds") {
+        setImageUrl(fewCloud);
+      } else if (data.weather[0].description === "scattered clouds") {
+        setImageUrl(scatteredCloud);
+      } else if (data.weather[0].description === "broken clouds") {
+        setImageUrl(brokenCloud);
+      } else if (data.weather[0].description === "shower rain") {
+        setImageUrl(showerRain);
+      } else if (data.weather[0].description === "rain") {
+        setImageUrl(rain);
+      } else if (data.weather[0].description === "thunderstorm") {
+        setImageUrl(thunderstorm);
+      } else if (data.weather[0].description === "snow") {
+        setImageUrl(snow);
+      } else if (data.weather[0].description === "mist") {
+        setImageUrl(mist);
+      }
+      setVisible(true);
+      imgRef.current.style.transition = "opacity 0.5s ease-out";
+    }, 500);
+  }, [data]);
+
   return (
-    <div className="h-[600px] flex justify-center items-end pb-10">
-      <div className="flex flex-col text-white justify-center items-center gap-x-10 gap-y-6 lg:flex-row">
+    <div className="absolute h-full w-full flex justify-center pb-10 ">
+      <img
+        ref={imgRef}
+        className="absolute h-full w-full object-cover object-center blur-sm"
+        style={{ opacity: visible ? "1" : "0" }}
+        src={imageUrl}
+        alt=""
+      />
+      <div className="absolute  h-full w-full flex flex-col text-amber-600 text-center justify-center items-center gap-x-10 gap-y-6 lg:flex-row  mx-[80px] md:mx-[120px] lg:mx-[150px] xl:mx-[250px]">
         <h1 className="text-9xl font-semibold">
           {Math.round(data.main.temp)}°C
         </h1>

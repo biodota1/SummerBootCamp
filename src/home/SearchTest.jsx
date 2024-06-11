@@ -31,6 +31,7 @@ export default function ({ onSearchChange }) {
 
   return (
     <AsyncPaginate
+      className="absolute z-10 text-black mx-[80px] md:mx-[120px] lg:mx-[150px] xl:mx-[250px] pt-10"
       placeholder="Search for city"
       debounceTimeout={600}
       value={search}
